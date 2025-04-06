@@ -36,4 +36,21 @@ public class Player : MonoBehaviour
             rb.linearVelocity = Vector3.up * jumpForce;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Pipe"))
+        {
+            GameManager.Instance.StopGame();
+            GameManager.Instance.RestartGame();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("ScoreCheck"))
+        {
+            GameManager.Instance.ScoreUp();
+        }
+    }
 }
