@@ -1,36 +1,43 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Spawns obstacles at random heights using pooling.
+/// </summary>
 public class ObstacleSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject obstaclePrefab;
-    [SerializeField] float spawnInterval = 2f;
-    [SerializeField] float spawnRangePositiveY = 5f;
-    [SerializeField] float spawnRangeNegativeY = -3f;
+    [SerializeField] private ObstaclePool pool;
+    [SerializeField] private float spawnInterval = 2f;
+    [SerializeField] private float minY = -3f;
+    [SerializeField] private float maxY = 5f;
+    private Coroutine spawnCoroutine;
 
-    Coroutine spawnCoroutine;
-
-    void Spawn()
+    private void OnEnable()
     {
-        Instantiate(obstaclePrefab, new Vector3(transform.position.x, Random.Range(spawnRangeNegativeY, spawnRangePositiveY), 0), Quaternion.identity);
+        EventManager.OnGameStart += StartSpawning;
+        EventManager.OnGameOver += StopSpawning;
     }
 
-    IEnumerator StartSpawning()
+    private void OnDisable()
+    {
+        EventManager.OnGameStart -= StartSpawning;
+        EventManager.OnGameOver -= StopSpawning;
+    }
+
+    private IEnumerator SpawnRoutine()
     {
         while (true)
         {
-            Spawn();
+            var obstacle = pool.GetObstacle();
+            obstacle.transform.position = new Vector3(transform.position.x, Random.Range(minY, maxY), 0f);
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
-    public void StartSpawn()
+    public void StartSpawning()
     {
         if (spawnCoroutine == null)
-        {
-            spawnCoroutine = StartCoroutine(StartSpawning());
-        }
-
+            spawnCoroutine = StartCoroutine(SpawnRoutine());
     }
 
     public void StopSpawning()

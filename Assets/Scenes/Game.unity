@@ -238,7 +238,7 @@ Camera:
   m_BackGroundColor: {r: 0.30104133, g: 0.3050389, b: 0.31132078, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
-  m_FOVAxisMode: 0
+  m_FOVAxisMode: 1
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
@@ -345,6 +345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 375431861}
   - component: {fileID: 375431862}
+  - component: {fileID: 375431863}
   m_Layer: 0
   m_Name: ObstacleSpawner
   m_TagString: Untagged
@@ -361,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 375431860}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0, z: 0}
+  m_LocalPosition: {x: 18.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -379,9 +380,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fd13295d84c1ac41a33303f97ecceb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePrefab: {fileID: 4427346378050116603, guid: ffd473f2af654f548b5f1e7bfa8d08fe, type: 3}
+  pool: {fileID: 375431863}
   spawnInterval: 2
-  spawnRangeY: 2
+  minY: -3
+  maxY: 5
+--- !u!114 &375431863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375431860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b6370c9f8ad104d920a4fd04f443b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclePrefab: {fileID: 4427346378050116603, guid: ffd473f2af654f548b5f1e7bfa8d08fe, type: 3}
+  initialSize: 10
 --- !u!1 &384894147
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +449,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1080, y: 1920}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -619,6 +635,7 @@ GameObject:
   - component: {fileID: 786262985}
   - component: {fileID: 786262980}
   - component: {fileID: 786262984}
+  - component: {fileID: 786262986}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -709,7 +726,7 @@ Transform:
   m_GameObject: {fileID: 786262979}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.13, y: 0, z: 0}
+  m_LocalPosition: {x: -9.01, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -755,6 +772,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 5
+--- !u!114 &786262986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786262979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cdfe1694438b642a788394182a5bdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,7 +867,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 700}
+  m_AnchoredPosition: {x: 0, y: 385.5999}
   m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1200640753
@@ -950,6 +979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574777392}
   - component: {fileID: 1574777393}
+  - component: {fileID: 1574777394}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -984,8 +1014,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5216d9a56088e45478fa5fad95eed1ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 1200640753}
-  obstacleSpawner: {fileID: 375431862}
+--- !u!114 &1574777394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574777391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c75698a13790cb468b283589098d006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,56 +1,44 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// Applies jump physics and triggers game events on collisions.
+/// </summary>
+[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    public bool IsPressed { get; private set; }
-    Rigidbody rb;
-    [SerializeField] float jumpForce = 5f;
+    [SerializeField] private float jumpForce = 5f;
+    private Rigidbody rb;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        IsPressed = false;
+        InputHandler.Instance.OnJumpPressed += HandleJump;
+    }
 
-#if UNITY_ANDROID || UNITY_EDITOR
-        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
-        {
-            IsPressed = true;
-        }
-#endif
-#if UNITY_STANDALONE || UNITY_EDITOR
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            IsPressed = true;
-        }
-#endif
+    private void OnDisable()
+    {
+        if (InputHandler.Instance != null)
+            InputHandler.Instance.OnJumpPressed -= HandleJump;
+    }
 
-        if (IsPressed)
-        {
-            rb.linearVelocity = Vector3.up * jumpForce;
-        }
+    private void HandleJump()
+    {
+        rb.linearVelocity = Vector3.up * jumpForce;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Pipe"))
-        {
-            GameManager.Instance.StopGame();
-            GameManager.Instance.RestartGame();
-        }
+            EventManager.OnGameOver?.Invoke();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("ScoreCheck"))
-        {
-            GameManager.Instance.ScoreUp();
-        }
+        if (other.CompareTag("ScoreCheck"))
+            EventManager.OnScore?.Invoke();
     }
 }
