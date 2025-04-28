@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Manages game start, game over, and scene reload.
+/// Game only starts after first input.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
@@ -22,11 +23,6 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         EventManager.OnGameOver -= RestartGame;
-    }
-
-    private void Start()
-    {
-        StartGame();
     }
 
     /// <summary>

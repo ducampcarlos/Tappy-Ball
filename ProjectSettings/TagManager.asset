@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pipe
   - ScoreCheck
+  - Collectable
   layers:
   - Default
   - TransparentFX
