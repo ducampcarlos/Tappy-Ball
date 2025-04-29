@@ -1,10 +1,14 @@
 using UnityEngine;
 
+/// <summary>
+/// Moves obstacle left and optionally oscillates vertically.
+/// Uses GameSpeedManager.SpeedMultiplier.
+/// </summary>
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
 
-    // Parámetros de oscilación
+    // Oscillation parameters
     private bool isOscillating;
     private float minY, maxY, range, verticalSpeed;
     private float timeOffset;
@@ -17,9 +21,6 @@ public class Obstacle : MonoBehaviour
         pool = FindFirstObjectByType<ObstaclePool>();
     }
 
-    /// <summary>
-    /// Llama el spawner cada vez que lo sacas del pool
-    /// </summary>
     public void ConfigureOscillation(bool enabled, float minY, float maxY, float speed)
     {
         isOscillating = enabled;
@@ -27,15 +28,17 @@ public class Obstacle : MonoBehaviour
         this.maxY = maxY;
         this.range = maxY - minY;
         this.verticalSpeed = speed;
-        timeOffset = Random.value * 10f; // desfase aleatorio para no sincronizar todos
+        timeOffset = Random.value * 10f;
     }
 
     private void Update()
     {
-        // 1) Movimiento horizontal constante
-        float newX = transform.position.x - moveSpeed * Time.deltaTime;
+        float globalSpeed = GameSpeedManager.Instance.SpeedMultiplier;
 
-        // 2) Si debe oscilar, calcula nueva Y con PingPong; si no, mantiene Y inicial
+        // Horizontal movement
+        float newX = transform.position.x - moveSpeed * Time.deltaTime * globalSpeed;
+
+        // Vertical oscillation
         float newY = transform.position.y;
         if (isOscillating)
         {
@@ -45,7 +48,7 @@ public class Obstacle : MonoBehaviour
 
         transform.position = new Vector3(newX, newY, 0f);
 
-        // 3) Devolver al pool si sale de cámara
+        // Return to pool if off-screen
         if (newX < offscreenX)
             pool.ReturnObstacle(gameObject);
     }

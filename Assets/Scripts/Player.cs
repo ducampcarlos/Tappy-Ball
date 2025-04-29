@@ -1,7 +1,8 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Applies jump physics and triggers game events on collisions.
+/// Applies jump physics and handles collisions, including power-up invincibility against obstacles.
 /// Waits for first input to start the game.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
@@ -10,6 +11,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     private Rigidbody rb;
     private bool gameStarted;
+
+    // Power-up invincibility
+    private bool canPassThrough = false;
+    private Coroutine passThroughRoutine;
 
     private void Awake()
     {
@@ -42,8 +47,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Pipe"))
-            EventManager.OnGameOver?.Invoke();
+        if (other.CompareTag("Pipe"))
+        {
+            if (!canPassThrough)
+                EventManager.OnGameOver?.Invoke();
+            // else ignore collision
+        }
         else if (other.CompareTag("ScoreCheck"))
             EventManager.OnScore?.Invoke();
         else if (other.CompareTag("Collectable"))
@@ -52,4 +61,23 @@ public class Player : MonoBehaviour
             other.gameObject.SetActive(false);
         }
     }
+
+    /// <summary>
+    /// Enables temporary invincibility to pass through obstacles.
+    /// </summary>
+    public void EnablePassThrough(float duration)
+    {
+        if (passThroughRoutine != null)
+            StopCoroutine(passThroughRoutine);
+        passThroughRoutine = StartCoroutine(PassThroughRoutine(duration));
+    }
+
+    private IEnumerator PassThroughRoutine(float duration)
+    {
+        canPassThrough = true;
+        yield return new WaitForSeconds(duration);
+        canPassThrough = false;
+    }
 }
+
+
