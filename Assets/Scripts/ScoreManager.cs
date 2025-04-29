@@ -22,6 +22,7 @@ public class ScoreManager : MonoBehaviour
         EventManager.OnGameStart += ResetAll;
         EventManager.OnScore += OnScore;
         EventManager.OnCollect += OnCollect;
+        EventManager.OnCollectableMiss += OnCollectableMiss;
     }
 
     private void OnDisable()
@@ -29,6 +30,7 @@ public class ScoreManager : MonoBehaviour
         EventManager.OnGameStart -= ResetAll;
         EventManager.OnScore -= OnScore;
         EventManager.OnCollect -= OnCollect;
+        EventManager.OnCollectableMiss -= OnCollectableMiss;
     }
 
     private void ResetAll()
@@ -40,17 +42,23 @@ public class ScoreManager : MonoBehaviour
 
     private void OnScore()
     {
-        // Passing through pipe resets combo
-        comboCount = 0;
+        // Increment score for passing pipe; do not reset combo
         score++;
         UpdateUI();
     }
 
     private void OnCollect()
     {
-        // Collectable combo: increment and add comboCount points
+        // Successful collectable pickup: increase combo and add combo bonus
         comboCount++;
         score += comboCount;
+        UpdateUI();
+    }
+
+    private void OnCollectableMiss()
+    {
+        // Missed collectable: reset combo without affecting score
+        comboCount = 0;
         UpdateUI();
     }
 
