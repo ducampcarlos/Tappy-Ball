@@ -40,15 +40,11 @@ public class Player : MonoBehaviour
         rb.linearVelocity = Vector3.up * jumpForce;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Pipe"))
-            EventManager.OnGameOver?.Invoke();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ScoreCheck"))
+        if (other.gameObject.CompareTag("Pipe"))
+            EventManager.OnGameOver?.Invoke();
+        else if (other.CompareTag("ScoreCheck"))
             EventManager.OnScore?.Invoke();
         else if (other.CompareTag("Collectable"))
         {

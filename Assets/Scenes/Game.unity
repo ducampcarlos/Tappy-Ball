@@ -384,6 +384,9 @@ MonoBehaviour:
   spawnInterval: 2
   minY: -3
   maxY: 5
+  oscillationStartDelay: 15
+  oscillationChance: 0.2
+  verticalSpeed: 2
 --- !u!114 &375431863
 MonoBehaviour:
   m_ObjectHideFlags: 0
