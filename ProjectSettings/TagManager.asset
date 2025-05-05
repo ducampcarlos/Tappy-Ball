@@ -41,6 +41,30 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sky
+    uniqueID: 3983776911
+    locked: 0
+  - name: Sun
+    uniqueID: 2910480957
+    locked: 0
+  - name: MountainsBack
+    uniqueID: 3290698795
+    locked: 0
+  - name: MountainsMid
+    uniqueID: 2705804017
+    locked: 0
+  - name: MountainsFront
+    uniqueID: 919431331
+    locked: 0
+  - name: Trees
+    uniqueID: 788409289
+    locked: 0
+  - name: Rocks
+    uniqueID: 2021868361
+    locked: 0
+  - name: Clouds
+    uniqueID: 525876215
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
