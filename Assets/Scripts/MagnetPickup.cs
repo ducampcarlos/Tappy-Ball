@@ -31,6 +31,9 @@ public class MagnetPickup : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         MagnetManager.Instance.StartMagnet(magnetDuration, magnetRadius);
+        var player = other.GetComponent<Player>();
+        if (player != null)
+            player.ShowPowerUpLight(Color.magenta, magnetDuration);
         gameObject.SetActive(false);
         pool.ReturnPowerUp(gameObject);
     }

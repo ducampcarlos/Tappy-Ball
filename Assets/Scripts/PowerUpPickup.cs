@@ -37,7 +37,10 @@ public class PowerUpPickup : MonoBehaviour
         // Enable player invincibility against obstacles
         var player = other.GetComponent<Player>();
         if (player != null)
+        {
             player.EnablePassThrough(totalDuration);
+            player.ShowPowerUpLight(Color.cyan, totalDuration);
+        }
 
         // Deactivate and return to pool
         gameObject.SetActive(false);

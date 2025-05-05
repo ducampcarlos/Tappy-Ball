@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     private bool canPassThrough = false;
     private Coroutine passThroughRoutine;
 
+    [Header("Power-Up Indicator")]
+    [SerializeField] private Light powerUpLight;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -78,6 +81,25 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(duration);
         canPassThrough = false;
     }
+
+    /// <summary>
+    /// Enciende la luz con el color dado durante 'duration' segundos.
+    /// </summary>
+    public void ShowPowerUpLight(Color color, float duration)
+    {
+        if (powerUpLight == null) return;
+        StopCoroutine(nameof(PowerUpLightCoroutine));
+        StartCoroutine(PowerUpLightCoroutine(color, duration));
+    }
+
+    private IEnumerator PowerUpLightCoroutine(Color color, float duration)
+    {
+        powerUpLight.color = color;
+        powerUpLight.enabled = true;
+        yield return new WaitForSeconds(duration);
+        powerUpLight.enabled = false;
+    }
+
 }
 
 
