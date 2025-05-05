@@ -14,6 +14,8 @@ public class Collectable : MonoBehaviour
     private float magnetRadius;
     private Transform playerTransform;
 
+    
+
     private void Start()
     {
         pool = FindFirstObjectByType<CollectablePool>();

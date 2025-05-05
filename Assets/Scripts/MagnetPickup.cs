@@ -8,6 +8,9 @@ public class MagnetPickup : MonoBehaviour
 {
     [SerializeField] private float magnetDuration = 5f;
     [SerializeField] private float magnetRadius = 3f;
+
+    [SerializeField] private AudioClip pickUpSound;
+
     private PowerUpPool pool;
 
     private void Start()
@@ -30,6 +33,7 @@ public class MagnetPickup : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+        AudioManager.Instance.PlaySFX(pickUpSound, 0.5f);
         MagnetManager.Instance.StartMagnet(magnetDuration, magnetRadius);
         var player = other.GetComponent<Player>();
         if (player != null)

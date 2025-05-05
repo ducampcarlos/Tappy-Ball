@@ -7,6 +7,7 @@ public class PowerUpPickup : MonoBehaviour
 {
     [SerializeField] private float totalDuration = 10f;
     [SerializeField] private float speedUpMultiplier = 2f;
+    [SerializeField] private AudioClip pickUpSound;
 
     private PowerUpPool pool;
 
@@ -34,6 +35,7 @@ public class PowerUpPickup : MonoBehaviour
         // Trigger global smooth power-up
         GameSpeedManager.Instance.StartPowerUp(totalDuration, speedUpMultiplier);
 
+        AudioManager.Instance.PlaySFX(pickUpSound, 0.5f);
         // Enable player invincibility against obstacles
         var player = other.GetComponent<Player>();
         if (player != null)

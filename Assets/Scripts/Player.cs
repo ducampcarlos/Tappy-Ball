@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     private bool canPassThrough = false;
     private Coroutine passThroughRoutine;
 
+    [SerializeField] private AudioClip[] paperJump;
+    [SerializeField] private AudioClip collectableSound;
+
     [Header("Power-Up Indicator")]
     [SerializeField] private Light powerUpLight;
 
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour
             rb.isKinematic = false; // Enable physics when game starts
         }
         rb.linearVelocity = Vector3.up * jumpForce;
+
+        AudioManager.Instance.PlaySFX(paperJump[Random.Range(0, paperJump.Length)], 0.5f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,13 +59,17 @@ public class Player : MonoBehaviour
         {
             if (!canPassThrough)
                 EventManager.OnGameOver?.Invoke();
-            // else ignore collision
+        }
+        else if (other.CompareTag("Boundary"))
+        {
+            EventManager.OnGameOver?.Invoke();
         }
         else if (other.CompareTag("ScoreCheck"))
             EventManager.OnScore?.Invoke();
         else if (other.CompareTag("Collectable"))
         {
             EventManager.OnCollect?.Invoke();
+            AudioManager.Instance.PlaySFX(collectableSound, 0.5f);
             other.gameObject.SetActive(false);
         }
     }
@@ -82,24 +91,35 @@ public class Player : MonoBehaviour
         canPassThrough = false;
     }
 
+    // Contador de power-ups activos que piden la luz
+    private int lightRequestCount = 0;
+
     /// <summary>
-    /// Enciende la luz con el color dado durante 'duration' segundos.
+    /// Enciende la luz con el color dado durante `duration` segundos,
+    /// y se apaga sólo cuando **todos** los power-ups hayan terminado.
     /// </summary>
     public void ShowPowerUpLight(Color color, float duration)
     {
         if (powerUpLight == null) return;
-        StopCoroutine(nameof(PowerUpLightCoroutine));
-        StartCoroutine(PowerUpLightCoroutine(color, duration));
-    }
 
-    private IEnumerator PowerUpLightCoroutine(Color color, float duration)
-    {
+        lightRequestCount++;
         powerUpLight.color = color;
         powerUpLight.enabled = true;
-        yield return new WaitForSeconds(duration);
-        powerUpLight.enabled = false;
+        StartCoroutine(PowerUpLightRoutine(duration));
     }
 
+    private IEnumerator PowerUpLightRoutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        lightRequestCount--;
+        if (lightRequestCount <= 0)
+        {
+            // No quedan requests, apagamos
+            lightRequestCount = 0;
+            powerUpLight.enabled = false;
+        }
+    }
 }
 
 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7487286141210968015}
   - component: {fileID: -6612376387024763634}
   - component: {fileID: -9190612840580490036}
+  - component: {fileID: 2075652170119059661}
   m_Layer: 0
   m_Name: PowerUpMagnet
   m_TagString: Untagged
@@ -71,7 +72,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetDuration: 8
-  magnetRadius: 3
+  magnetRadius: 9
+  pickUpSound: {fileID: 8300000, guid: d5c1ae24083a1d846a06c3df85e9ad25, type: 3}
 --- !u!114 &-9190612840580490036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +87,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PoolID: 1
+--- !u!114 &2075652170119059661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9176202370664229665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e388759dd1e04a8e2b2b33a79e396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelTransform: {fileID: 99798492149725902}
+  swingAngle: 30
+  swingDuration: 1
 --- !u!1001 &2813573991998628726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,6 +178,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7878716250474437913}
   m_SourcePrefab: {fileID: 100100000, guid: 1203b0584fb2c57469413264b85f5496, type: 3}
+--- !u!4 &99798492149725902 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2767845222492608952, guid: 1203b0584fb2c57469413264b85f5496, type: 3}
+  m_PrefabInstance: {fileID: 2813573991998628726}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1927248166534459967 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4446503485840822601, guid: 1203b0584fb2c57469413264b85f5496, type: 3}
