@@ -436,7 +436,7 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.30104133, g: 0.3050389, b: 0.31132078, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1958,8 +1958,8 @@ MonoBehaviour:
   maxPitchAngle: 30
   pitchSmoothSpeed: 5
   maxVerticalSpeed: 5
-  turbulenceAmplitude: 3
-  turbulenceFrequency: 1
+  turbulenceAmplitude: 5
+  turbulenceFrequency: 0.5
 --- !u!1 &4585677927118409211
 GameObject:
   m_ObjectHideFlags: 0

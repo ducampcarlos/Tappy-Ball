@@ -41,8 +41,6 @@ public class Collectable : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(0, 90 * Time.deltaTime, 0); // Rotate collectable for visual effect
-
         float globalSpeed = GameSpeedManager.Instance.SpeedMultiplier;
         Vector3 pos = transform.position;
 
