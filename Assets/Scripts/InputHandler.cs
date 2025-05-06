@@ -19,11 +19,11 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-#if UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
+#if UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR || UNITY_WEBGL
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
             OnJumpPressed?.Invoke();
 #endif
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBGL
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             OnJumpPressed?.Invoke();
 #endif
